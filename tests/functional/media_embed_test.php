@@ -40,7 +40,8 @@ class media_embed_test extends \phpbb_functional_test_case
 		$crawler = self::request('GET', "adm/index.php?i=\\phpbb\\mediaembed\\acp\\main_module&mode=manage&sid={$this->sid}");
 		$this->assert_checkbox_is_unchecked($crawler, 'ok');
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
-		$fields = $form->all();
+	/*	$fields = $form->all();
+		var_dump($form);exit;
 		$name = false;
 		foreach ($fields as $fieldname => $fieldobject)
 		{
@@ -49,8 +50,11 @@ class media_embed_test extends \phpbb_functional_test_case
 				$name = $fieldobject->getName();
 				break;
 			}
-		}
-		$form[$name]->tick();
+		}*/
+		$query = sprintf('//input[@type="checkbox" and @value="%s"]', 'ok');
+		$result = $crawler->filterXPath($query)->getNode(0)->setAttribute('checked', 'checked');
+		var_dump($result);exit;
+	//	$form['mark[118]']->tick();
 		self::submit($form);
 		$crawler = self::request('GET', "adm/index.php?i=\\phpbb\\mediaembed\\acp\\main_module&mode=manage&sid={$this->sid}");
 		$this->assert_checkbox_is_checked($crawler, 'ok');
